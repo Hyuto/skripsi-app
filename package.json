@@ -1,7 +1,6 @@
 {
-  "name": "skripsi-project-frontend-dev",
+  "name": "skripsi-app",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "@fontsource/merriweather": "^4.5.1",
     "@fontsource/montserrat": "^4.5.1",
@@ -25,7 +24,10 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "globals": {
+      "ort": true
+    }
   },
   "browserslist": {
     "production": [
@@ -38,5 +40,16 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "author": {
+    "name": "Wahyu Setianto",
+    "url": "https://github.com/Hyuto"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hyuto/skripsi-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Hyuto/skripsi-app/issues"
   }
 }

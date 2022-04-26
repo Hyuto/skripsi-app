@@ -1,9 +1,12 @@
 import React from "react";
 import { FaHome } from "react-icons/fa";
 import * as style from "./style/layout.module.scss";
-import Main from "./main/main";
 
 const App = () => {
+  if (ort) {
+    console.log("onnxruntime-web is ready!");
+  }
+
   return (
     <div className={style.showcase}>
       <header className={style.header}>
@@ -15,7 +18,8 @@ const App = () => {
         </div>
       </header>
       <main>
-        <Main />
+        {/* TODO : Create main content */}
+        <div>Test</div>
       </main>
       <footer className={style.footer}>
         <strong>© wahyu setianto {new Date().getFullYear()}</strong>, Built with
