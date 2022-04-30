@@ -1,4 +1,5 @@
 import React from "react";
+import Main from "./Main";
 import { FaHome } from "react-icons/fa";
 import * as style from "./style/layout.module.scss";
 
@@ -17,10 +18,7 @@ const App = () => {
           </a>
         </div>
       </header>
-      <main>
-        {/* TODO : Create main content */}
-        <div>Test</div>
-      </main>
+      <Main />
       <footer className={style.footer}>
         <strong>© wahyu setianto {new Date().getFullYear()}</strong>, Built with
         {` `}
