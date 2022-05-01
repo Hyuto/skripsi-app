@@ -4,10 +4,6 @@ import { FaHome } from "react-icons/fa";
 import * as style from "./style/layout.module.scss";
 
 const App = () => {
-  if (ort) {
-    console.log("onnxruntime-web is ready!");
-  }
-
   return (
     <div className={style.showcase}>
       <header className={style.header}>
