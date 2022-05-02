@@ -19,9 +19,9 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "setup": "node post-install.js",
+    "start": "yarn setup && react-scripts start",
+    "build": "yarn setup && react-scripts build",
+    "setup": "node ort-wasm-handler.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
