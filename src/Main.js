@@ -40,7 +40,6 @@ const Main = () => {
     if (words === "") alert("Please input words!");
     else if (model) {
       const input = new ort.Tensor("string", [preprocess(words)], [1, 1]);
-      console.log(input);
       await model
         .run({ words: input })
         .then((results) => {
@@ -66,9 +65,14 @@ const Main = () => {
             Text emotion detector using <strong>{/* TODO: Update this */}DESCRIPTION</strong> live
             in browser powered by <code>onnxruntime-web</code> with <code>wasm</code> backend.{" "}
             <strong>
+              <a href="https://github.com/Hyuto/skripsi" rel="noreferrer" target="_blank">
+                Repository
+              </a>
+            </strong>{" "}
+            <strong>
               {/* TODO: Update source code link */}
               <a href="#" rel="noreferrer" target="_blank">
-                source code
+                Source code
               </a>
             </strong>
           </p>
