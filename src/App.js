@@ -1,34 +1,41 @@
-//import { useEffect } from "react";
+import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Text, View } from "react-native";
-//import * as ort from "onnxruntime-web";
+import { modelHandler } from "./modelHandler";
 
 const App = () => {
-  /* useEffect(() => {
-    const loadSession = async () => {
-      try {
-        const session = await ort.InferenceSession.create(
-          `${window.location.origin}/static/model/model.with_runtime_opt.ort`
-        );
-        console.log(session);
-      } catch (e) {
-        alert("Can't load model!");
-        throw e;
-      }
-    };
+  const model = new modelHandler();
 
-    //loadSession();
-  }, []); */
+  useEffect(() => {
+    model.loadSession().then(async () => {
+      const words = "jokowi mau makan";
+      const result = await model.predict(words);
+      console.log(result);
+    });
+  }, []);
 
   return (
-    <View className="flex-1 bg-white items-center justify-center">
-      <View className="flex flex-row items-center">
-        <Text className="text-lg">Hello from </Text>
-        <View className="px-2.5 pt-1.5 pb-2 bg-black rounded-lg">
-          <Text className="text-lg text-yellow-400 italic font-semibold">src/App.js!</Text>
+    <View className="flex-1 bg-white">
+      <View className="flex-1 items-center justify-between mx-4 mt-8 mb-6">
+        <View className="flex flex-row items-center justify-between w-full">
+          <View className="px-2.5 pt-1.5 pb-2 bg-black rounded-lg">
+            <Text className="text-3xl text-white font-semibold">Showcase</Text>
+          </View>
         </View>
+        <View className="flex flex-row items-center justify-between">
+          <Text className="text-lg">Hello from </Text>
+          <View className="px-2.5 pt-1.5 pb-2 bg-black rounded-lg">
+            <Text className="text-lg text-yellow-400 italic font-semibold">src/App.js!</Text>
+          </View>
+        </View>
+        <View>
+          <Text className="text-base text-center">
+            <Text className="font-bold">Copyright © {new Date().getFullYear()} Wahyu Setianto</Text>
+            , Built with React Native and {"\u2764"}
+          </Text>
+        </View>
+        <StatusBar style="auto" />
       </View>
-      <StatusBar style="auto" />
     </View>
   );
 };
