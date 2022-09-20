@@ -5,9 +5,10 @@ Skripsi application to test model trained on research live in the browser and an
 
 ## TODO
 
-1. Move to typescript
-2. Setup text preprocessing
-3. Deploy trained model
+1. Support dark theme.
+2. Move to typescript
+3. Setup text preprocessing
+4. Deploy trained model
 
 ## Used Technologies
 
