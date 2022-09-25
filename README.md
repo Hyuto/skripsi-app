@@ -5,10 +5,9 @@ Skripsi application to test model trained on research live in the browser and an
 
 ## TODO
 
-1. Move to typescript
-2. Setup text preprocessing
-3. Deploy trained model
-4. Fixing theme toggler in android
+1. Setup text preprocessing
+2. Deploy trained model
+3. Fixing theme toggler in android
 
 ## Used Technologies
 

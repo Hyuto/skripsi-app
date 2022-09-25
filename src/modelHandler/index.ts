@@ -1,0 +1,23 @@
+import { Asset } from "expo-asset";
+import { NativeModules } from "react-native";
+const { ONNXModel } = NativeModules;
+
+export interface PredInterface {
+  predicted: number;
+  probabilities: number[];
+}
+
+export class modelHandler {
+  loadSession = async (): Promise<void> => {
+    const assets = await Asset.loadAsync(require("../../assets/model/model.with_runtime_opt.ort"));
+    const modelUri = assets[0].localUri?.slice(7); // change from 'file::/data/...' to '/data/...'
+    await ONNXModel.loadModel(modelUri);
+  };
+
+  predict = async (text: string): Promise<PredInterface | undefined> => {
+    const resultString: string = await ONNXModel.predict(text);
+    let result: PredInterface | undefined;
+    if (resultString !== "") result = JSON.parse(resultString);
+    return result;
+  };
+}

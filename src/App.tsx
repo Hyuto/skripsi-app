@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Alert, Platform, Pressable, Text, TextInput, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
 import Description from "./components/description";
 import Card from "./components/card";
-//import { modelHandler } from "./modelHandler";
+import { modelHandler, PredInterface } from "./modelHandler";
 
-const App = () => {
-  const [text, setText] = useState("");
-  const [prediction, setPrediction] = useState(null);
+const App: FC = () => {
+  const [text, setText] = useState<string>("");
+  const [prediction, setPrediction] = useState<PredInterface | null>(null);
   const { colorScheme, setColorScheme } = useColorScheme();
   //const model = new modelHandler();
 
@@ -65,7 +65,7 @@ const App = () => {
                 className="bg-black p-2.5 pt-3 rounded mx-2 dark:bg-violet-800"
                 onPress={() => {
                   // TODO: Implement detect()
-                  if (text !== "") setPrediction(text);
+                  if (text !== "") setPrediction({ predicted: 1, probabilities: [1, 2] });
                   else Alert.alert("Null text submitted!", "Please type a text to detect.");
                 }}
               >

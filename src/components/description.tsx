@@ -1,6 +1,7 @@
+import { FC } from "react";
 import { Platform, Text, View } from "react-native";
 
-const Description = () => {
+const Description: FC = () => {
   return (
     <View className="flex items-center justify-center">
       <Text className="text-3xl font-semibold text-center dark:text-white">
