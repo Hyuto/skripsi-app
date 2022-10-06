@@ -1,3 +1,5 @@
+import { Stemmer, Tokenizer } from "sastrawijs";
+
 const emojiData = require("./emoji-data.json");
 const slangData = require("./slang-data.json");
 
@@ -33,17 +35,42 @@ export class Preprocessing {
   wePattern: RegExp = new RegExp("\\b\\w*([a-zA-Z])(\\1{1,})\\b", "gi");
   slangPattern: RegExp = new RegExp(`\\b(${Object.keys(slangData).join("|")})\\b`, "gi");
   emojiPattern: RegExp = new RegExp(`(${Object.keys(emojiData).join("|")})`, "gu");
+  encoder: TextEncoder = new TextEncoder();
+  asciiDecoder: TextDecoder = new TextDecoder("ascii");
+  tokenizer = new Tokenizer();
+  stemmer = new Stemmer();
+
+  #replaceEmoji = (...args: any[]): string => {
+    const match = args[0] as string;
+    return `!${emojiData[match]}!`;
+  };
 
   #replaceWE = (...args: any[]): string => {
-    const match: string = args[0];
-    const replacer: string = args[1];
+    const match = args[0] as string;
+    const replacer = args[1] as string;
     return match.replace(/([a-zA-Z])(\1{1,})/gi, replacer);
   };
 
+  #replaceSlang = (...args: any[]): string => {
+    const match = args[0] as string;
+    return slangData[match];
+  };
+
   run = (text: string): string => {
-    text = text.replace(this.htmlPattern, " ");
-    text = text.replace(this.urlPattern, " ");
+    text = text.toLowerCase();
+    text = text.replace(/\s+/gu, " ");
+    text = text.replace(this.emojiPattern, this.#replaceEmoji);
+    text = this.asciiDecoder
+      .decode(this.encoder.encode(text.normalize("NFD")))
+      .replace(/[^\x00-\x7F]/g, "");
+    text = text.replace(this.htmlPattern, "");
+    text = text.replace(this.urlPattern, "");
     text = text.replace(this.wePattern, this.#replaceWE);
-    return text;
+    text = text.replace(this.slangPattern, this.#replaceSlang);
+    text = text.replace(/[1-9]/g, "");
+    text = text.replace(/[!"#\$%&'\(\)\*\+,\-\.\/:;<=>\?@\[\\\]\^_`{\|}\~]/g, " ");
+    text = text.split(" ").join(" ");
+    const tokens = this.tokenizer.tokenize(text) as string[];
+    return tokens.map((word) => this.stemmer.stem(word)).join(" ");
   };
 }

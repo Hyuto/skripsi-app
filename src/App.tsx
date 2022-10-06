@@ -6,12 +6,14 @@ import { useColorScheme } from "nativewind";
 import Description from "./components/description";
 import Card from "./components/card";
 import { modelHandler, PredInterface } from "./modelHandler";
+import { Preprocessing } from "./modelHandler/preprocessing";
 
 const App: FC = () => {
   const [text, setText] = useState<string>("");
   const [prediction, setPrediction] = useState<PredInterface | null>(null);
   const { colorScheme, setColorScheme } = useColorScheme();
   //const model = new modelHandler();
+  const preprocessing = new Preprocessing();
 
   // handle toggle theme on web
   useEffect(() => {
@@ -25,6 +27,17 @@ const App: FC = () => {
       const result = await model.predict(words);
       console.log(result);
     }); */
+    console.log(
+      preprocessing.run(`""Bentar deh, dlu kan aku di vaksin campak smaa cacar kan?""
+
+    ""Iya divaksin""
+    
+    ""Masih kenaa juga kan??? Yaudah itu samaa aja kek vaksin covid, kek gtu kerjanya 🙃🙃""
+    
+    ""Oh iya bner juga""
+    
+    Wkwkwkwk alhamdulillah kelar 😂😂`)
+    );
   }, []);
 
   return (
