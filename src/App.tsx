@@ -1,19 +1,21 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useRef } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Alert, Platform, Pressable, Text, TextInput, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
-import Description from "./components/description";
 import Card from "./components/card";
+import Description from "./components/description";
+import Loading from "./components/loading";
 import { modelHandler, PredInterface } from "./modelHandler";
 import { Preprocessing } from "./modelHandler/preprocessing";
 
 const App: FC = () => {
+  const [loading, setLoading] = useState<string | null>("Loading Model...");
   const [text, setText] = useState<string>("");
   const [prediction, setPrediction] = useState<PredInterface | null>(null);
   const { colorScheme, setColorScheme } = useColorScheme();
-  //const model = new modelHandler();
-  const preprocessing = new Preprocessing();
+  const model = new modelHandler();
+  const preprocessing = useRef<Preprocessing | null>(null);
 
   // handle toggle theme on web
   useEffect(() => {
@@ -22,22 +24,49 @@ const App: FC = () => {
   }, [colorScheme]);
 
   useEffect(() => {
+    const prepare = async (): Promise<void> => {
+      await model.loadSession();
+
+      if (Platform.OS === "web") {
+        setLoading("Loading Pyodide...");
+        const pyodide = await loadPyodide();
+        await pyodide.loadPackage("micropip");
+        const micropip = pyodide.pyimport("micropip");
+
+        setLoading("Installing pydeps on pyodide...");
+        await micropip.install(["indoNLP", "PySastrawi"]);
+        await pyodide.runPythonAsync(`
+          import re
+          import string
+          import unicodedata
+          from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+          from indoNLP.preprocessing import (emoji_to_words, remove_html,
+              remove_url, replace_slang, replace_word_elongation
+          )
+          
+          factory = StemmerFactory()
+          STEMMER = factory.create_stemmer()
+        `);
+
+        (window as any).pyodide = pyodide;
+      }
+
+      preprocessing.current = new Preprocessing();
+      console.log(
+        preprocessing.current.run(
+          "3. GAMIS menyambut baik saranan daripada YAB Perdana Menteri agar disegerakan pemberian dos vaksin COVID-19 kepada seluruh rakyat agar kita cepat mencapai imuniti kelompok dan PKP tidak lagi berlanjutan yang hanya akan menimbulkan kegusaran kepada rakyat seluruhnya."
+        )
+      );
+      console.log(preprocessing.current.run("Amélie, Amélie"));
+      setLoading(null);
+    };
+
+    prepare();
     /* model.loadSession().then(async () => {
       const words = "jokowi mau makan";
       const result = await model.predict(words);
       console.log(result);
     }); */
-    console.log(
-      preprocessing.run(`""Bentar deh, dlu kan aku di vaksin campak smaa cacar kan?""
-
-    ""Iya divaksin""
-    
-    ""Masih kenaa juga kan??? Yaudah itu samaa aja kek vaksin covid, kek gtu kerjanya 🙃🙃""
-    
-    ""Oh iya bner juga""
-    
-    Wkwkwkwk alhamdulillah kelar 😂😂`)
-    );
   }, []);
 
   return (
@@ -78,8 +107,10 @@ const App: FC = () => {
                 className="bg-black p-2.5 pt-3 rounded mx-2 dark:bg-violet-800"
                 onPress={() => {
                   // TODO: Implement detect()
-                  if (text !== "") setPrediction({ predicted: 1, probabilities: [1, 2] });
-                  else Alert.alert("Null text submitted!", "Please type a text to detect.");
+                  if (text !== "") {
+                    console.log(preprocessing.current?.run(text));
+                    setPrediction({ predicted: 1, probabilities: [1, 2] });
+                  } else Alert.alert("Null text submitted!", "Please type a text to detect.");
                 }}
               >
                 <Text className="text-white font-bold">Predict</Text>
@@ -116,6 +147,7 @@ const App: FC = () => {
         </View>
         <StatusBar style="auto" />
       </View>
+      <Loading progress={loading} />
     </View>
   );
 };
