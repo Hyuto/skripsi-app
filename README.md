@@ -7,7 +7,6 @@ Skripsi application to test model trained on research live in the browser and an
 
 1. Deploy trained model
 2. Make preprocessing on native
-3. Make server side prediction for mobile
 
 ## Known Issues
 
