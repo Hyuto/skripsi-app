@@ -35,23 +35,12 @@ const App: FC = () => {
 
         setLoading("Installing pydeps on pyodide...");
         await micropip.install(["indoNLP", "PySastrawi"]);
-        await pyodide.runPythonAsync(`
-          import re
-          import string
-          import unicodedata
-          from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
-          from indoNLP.preprocessing import (emoji_to_words, remove_html,
-              remove_url, replace_slang, replace_word_elongation
-          )
-          
-          factory = StemmerFactory()
-          STEMMER = factory.create_stemmer()
-        `);
 
         (window as any).pyodide = pyodide;
       }
 
       preprocessing.current = new Preprocessing();
+      await preprocessing.current.init();
       console.log(
         preprocessing.current.run(
           "3. GAMIS menyambut baik saranan daripada YAB Perdana Menteri agar disegerakan pemberian dos vaksin COVID-19 kepada seluruh rakyat agar kita cepat mencapai imuniti kelompok dan PKP tidak lagi berlanjutan yang hanya akan menimbulkan kegusaran kepada rakyat seluruhnya."
@@ -102,14 +91,17 @@ const App: FC = () => {
               multiline
               className="p-3 mx-5 border rounded text-md text-center dark:border-violet-800 dark:text-white"
             />
-            <View className="flex-row justify-center my-4">
+            <View className="flex-row justify-center mt-4">
               <Pressable
                 className="bg-black p-2.5 pt-3 rounded mx-2 dark:bg-violet-800"
-                onPress={() => {
+                onPress={async () => {
                   // TODO: Implement detect()
                   if (text !== "") {
-                    console.log(preprocessing.current?.run(text));
-                    setPrediction({ predicted: 1, probabilities: [1, 2] });
+                    const cleanedText = preprocessing.current?.run(text) as string;
+                    const pred = await model.predict(cleanedText);
+                    console.log(cleanedText);
+                    console.log(pred);
+                    if (pred) setPrediction(pred);
                   } else Alert.alert("Null text submitted!", "Please type a text to detect.");
                 }}
               >

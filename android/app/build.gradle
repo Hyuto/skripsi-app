@@ -342,6 +342,8 @@ dependencies {
 
     // onnxruntime-mobile custom build, see tools/ort-android-custom-build
     implementation files('libs/onnxruntime-mobile-1.12.1.aar')
+    // jsastrawi
+    implementation 'com.andylibrian.jsastrawi:jsastrawi:0.1' 
 }
 
 if (isNewArchitectureEnabled()) {

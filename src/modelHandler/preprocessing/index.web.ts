@@ -1,6 +1,21 @@
 type prepFun = (text: string) => string;
 
 export class Preprocessing {
+  init = async () => {
+    await ((window as any).pyodide as Pyodide).runPythonAsync(`
+      import re
+      import string
+      import unicodedata
+      from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+      from indoNLP.preprocessing import (emoji_to_words, remove_html,
+          remove_url, replace_slang, replace_word_elongation
+      )
+      
+      factory = StemmerFactory()
+      STEMMER = factory.create_stemmer()
+    `);
+  };
+
   preprocessing: prepFun = ((window as any).pyodide as Pyodide).runPython(`
     def preprocessing(text):
         text = text.lower()
@@ -22,7 +37,5 @@ export class Preprocessing {
     preprocessing
     `);
 
-  run = (text: string): string => {
-    return this.preprocessing(text);
-  };
+  run = (text: string): string => this.preprocessing(text);
 }

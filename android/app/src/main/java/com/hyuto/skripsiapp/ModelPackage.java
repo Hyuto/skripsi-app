@@ -22,6 +22,7 @@ public class ModelPackage implements ReactPackage {
 
         try {
             modules.add(new ONNXModel(reactContext));
+            modules.add(new Preprocessing(reactContext));
         } catch (Exception e) {
             // do nothing. a module is not added into a package.
         }
