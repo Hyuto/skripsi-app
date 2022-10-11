@@ -17,7 +17,13 @@ export class modelHandler {
   predict = async (text: string): Promise<PredInterface | undefined> => {
     const resultString: string = await ONNXModel.predict(text);
     let result: PredInterface | undefined;
-    if (resultString !== "") result = JSON.parse(resultString);
+    if (resultString !== "") {
+      const parsed: PredInterface = JSON.parse(resultString);
+      result = {
+        predicted: parsed.predicted,
+        probabilities: parsed.probabilities.map((num) => num * 100),
+      };
+    }
     return result;
   };
 }

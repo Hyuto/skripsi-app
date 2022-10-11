@@ -30,7 +30,7 @@ export class modelHandler {
       .then((res) => {
         result = {
           predicted: Number(res.label.data[0] as bigint),
-          probabilities: Array.from(res.probabilities.data as Float32Array),
+          probabilities: Array.from(res.probabilities.data as Float32Array).map((num) => num * 100),
         };
       })
       .catch((e) => {

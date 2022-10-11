@@ -41,21 +41,10 @@ const App: FC = () => {
 
       preprocessing.current = new Preprocessing();
       await preprocessing.current.init();
-      console.log(
-        preprocessing.current.run(
-          "3. GAMIS menyambut baik saranan daripada YAB Perdana Menteri agar disegerakan pemberian dos vaksin COVID-19 kepada seluruh rakyat agar kita cepat mencapai imuniti kelompok dan PKP tidak lagi berlanjutan yang hanya akan menimbulkan kegusaran kepada rakyat seluruhnya."
-        )
-      );
-      console.log(preprocessing.current.run("Amélie, Amélie"));
       setLoading(null);
     };
 
     prepare();
-    /* model.loadSession().then(async () => {
-      const words = "jokowi mau makan";
-      const result = await model.predict(words);
-      console.log(result);
-    }); */
   }, []);
 
   return (
@@ -95,12 +84,9 @@ const App: FC = () => {
               <Pressable
                 className="bg-black p-2.5 pt-3 rounded mx-2 dark:bg-violet-800"
                 onPress={async () => {
-                  // TODO: Implement detect()
                   if (text !== "") {
                     const cleanedText = preprocessing.current?.run(text) as string;
                     const pred = await model.predict(cleanedText);
-                    console.log(cleanedText);
-                    console.log(pred);
                     if (pred) setPrediction(pred);
                   } else Alert.alert("Null text submitted!", "Please type a text to detect.");
                 }}
@@ -119,13 +105,13 @@ const App: FC = () => {
             </View>
             {prediction && (
               <View className="flex justify-center items-center">
-                <View className="flex-row justify-center flex-wrap mt-1 max-w-sm">
-                  <Card emoji="😲" label="Surprise" percentage={70.5216} />
-                  <Card emoji="😲" label="Surprise" percentage={70} />
-                  <Card emoji="😲" label="Surprise" percentage={70} />
-                  <Card emoji="😲" label="Surprise" percentage={70} />
-                  <Card emoji="😲" label="Surprise" percentage={70} />
-                  <Card emoji="😲" label="Surprise" percentage={70} />
+                <View className="flex-row justify-center flex-wrap mt-2 max-w-sm">
+                  <Card emoji="😲" label="Surprise" percentage={prediction.probabilities[1]} />
+                  <Card emoji="😊" label="Happiness" percentage={prediction.probabilities[2]} />
+                  <Card emoji="😠" label="Anger" percentage={prediction.probabilities[3]} />
+                  <Card emoji="😨" label="Fear" percentage={prediction.probabilities[4]} />
+                  <Card emoji="🤢" label="Disgust" percentage={prediction.probabilities[5]} />
+                  <Card emoji="😢" label="Sadness" percentage={prediction.probabilities[6]} />
                 </View>
               </View>
             )}
