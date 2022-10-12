@@ -2,7 +2,7 @@ import { FC } from "react";
 import { ActivityIndicator, Image, Platform, Text, View } from "react-native";
 import { useColorScheme } from "nativewind";
 
-const imageUri = require("../../assets/icon.png");
+const imageUri = require("../../assets/loading.png");
 
 const Loading: FC<{ progress: string | null }> = ({ progress }) => {
   const { colorScheme } = useColorScheme();
