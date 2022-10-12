@@ -1,7 +1,7 @@
 {
   "files": {
-    "app.js": "/skripsi-app/static/js/app.85c718e4.chunk.js",
-    "app.js.map": "/skripsi-app/static/js/app.85c718e4.chunk.js.map",
+    "app.js": "/skripsi-app/static/js/app.3eba477e.chunk.js",
+    "app.js.map": "/skripsi-app/static/js/app.3eba477e.chunk.js.map",
     "runtime~app.js": "/skripsi-app/static/js/runtime~app.bac5b14a.js",
     "runtime~app.js.map": "/skripsi-app/static/js/runtime~app.bac5b14a.js.map",
     "static/js/2.e4690d4a.chunk.js": "/skripsi-app/static/js/2.e4690d4a.chunk.js",
@@ -35,6 +35,6 @@
   "entrypoints": [
     "static/js/runtime~app.bac5b14a.js",
     "static/js/2.e4690d4a.chunk.js",
-    "static/js/app.85c718e4.chunk.js"
+    "static/js/app.3eba477e.chunk.js"
   ]
 }
