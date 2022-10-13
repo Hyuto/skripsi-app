@@ -26,6 +26,9 @@ module.exports = {
       package: "com.hyuto.skripsiapp",
     },
     web: {
+      description:
+        "Indonesian language emotion detector right in the browser using onnxruntime-web",
+      lang: "id",
       favicon: "./assets/favicon.png",
     },
     extra: {

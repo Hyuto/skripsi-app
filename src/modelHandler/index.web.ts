@@ -10,7 +10,7 @@ export class modelHandler {
     try {
       // on web model is placed on static/model folder. see webpack.config.js
       (window as any).session = await ort.InferenceSession.create(
-        `${window.location.origin}/static/model/model.with_runtime_opt.ort`
+        `${process.env.PUBLIC_URL}/static/model/model.with_runtime_opt.ort`
       );
       console.log("Session loaded!");
     } catch (e) {
