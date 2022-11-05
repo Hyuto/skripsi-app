@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { Alert, Platform, Pressable, Text, TextInput, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
-import Card from "./components/card";
+import Predictions from "./components/predictions";
 import Description from "./components/description";
 import Loading from "./components/loading";
 import { modelHandler, PredInterface } from "./modelHandler";
@@ -103,18 +103,7 @@ const App: FC = () => {
                 <Text className="font-bold dark:text-violet-800">Reset</Text>
               </Pressable>
             </View>
-            {prediction && (
-              <View className="flex justify-center items-center">
-                <View className="flex-row justify-center flex-wrap mt-2 max-w-sm">
-                  <Card emoji="😲" label="Surprise" percentage={prediction.probabilities[1]} />
-                  <Card emoji="😊" label="Happiness" percentage={prediction.probabilities[2]} />
-                  <Card emoji="😠" label="Anger" percentage={prediction.probabilities[3]} />
-                  <Card emoji="😨" label="Fear" percentage={prediction.probabilities[4]} />
-                  <Card emoji="🤢" label="Disgust" percentage={prediction.probabilities[5]} />
-                  <Card emoji="😢" label="Sadness" percentage={prediction.probabilities[6]} />
-                </View>
-              </View>
-            )}
+            <Predictions prediction={prediction} />
           </View>
         </View>
         <View>
