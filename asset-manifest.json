@@ -1,11 +1,11 @@
 {
   "files": {
-    "app.js": "/skripsi-app/static/js/app.3eba477e.chunk.js",
-    "app.js.map": "/skripsi-app/static/js/app.3eba477e.chunk.js.map",
+    "app.js": "/skripsi-app/static/js/app.5dad61b6.chunk.js",
+    "app.js.map": "/skripsi-app/static/js/app.5dad61b6.chunk.js.map",
     "runtime~app.js": "/skripsi-app/static/js/runtime~app.bac5b14a.js",
     "runtime~app.js.map": "/skripsi-app/static/js/runtime~app.bac5b14a.js.map",
-    "static/js/2.e4690d4a.chunk.js": "/skripsi-app/static/js/2.e4690d4a.chunk.js",
-    "static/js/2.e4690d4a.chunk.js.map": "/skripsi-app/static/js/2.e4690d4a.chunk.js.map",
+    "static/js/2.fa81666b.chunk.js": "/skripsi-app/static/js/2.fa81666b.chunk.js",
+    "static/js/2.fa81666b.chunk.js.map": "/skripsi-app/static/js/2.fa81666b.chunk.js.map",
     "fonts/AntDesign.ttf": "/skripsi-app/./fonts/AntDesign.ttf",
     "fonts/Entypo.ttf": "/skripsi-app/./fonts/Entypo.ttf",
     "fonts/Feather.ttf": "/skripsi-app/./fonts/Feather.ttf",
@@ -24,7 +24,7 @@
     "index.html": "/skripsi-app/index.html",
     "manifest.json": "/skripsi-app/manifest.json",
     "serve.json": "/skripsi-app/serve.json",
-    "static/js/2.e4690d4a.chunk.js.LICENSE.txt": "/skripsi-app/static/js/2.e4690d4a.chunk.js.LICENSE.txt",
+    "static/js/2.fa81666b.chunk.js.LICENSE.txt": "/skripsi-app/static/js/2.fa81666b.chunk.js.LICENSE.txt",
     "static/js/ort-wasm-simd-threaded.wasm": "/skripsi-app/static/js/ort-wasm-simd-threaded.wasm",
     "static/js/ort-wasm-simd.wasm": "/skripsi-app/static/js/ort-wasm-simd.wasm",
     "static/js/ort-wasm-threaded.wasm": "/skripsi-app/static/js/ort-wasm-threaded.wasm",
@@ -34,7 +34,7 @@
   },
   "entrypoints": [
     "static/js/runtime~app.bac5b14a.js",
-    "static/js/2.e4690d4a.chunk.js",
-    "static/js/app.3eba477e.chunk.js"
+    "static/js/2.fa81666b.chunk.js",
+    "static/js/app.5dad61b6.chunk.js"
   ]
 }
