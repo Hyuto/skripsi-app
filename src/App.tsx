@@ -17,6 +17,14 @@ const App: FC = () => {
   const model = new modelHandler();
   const preprocessing = useRef<Preprocessing | null>(null);
 
+  const predict = async () => {
+    if (text !== "") {
+      const cleanedText = preprocessing.current?.run(text) as string;
+      const pred = await model.predict(cleanedText);
+      if (pred) setPrediction(pred);
+    } else Alert.alert("Null text submitted!", "Please type a text to detect.");
+  };
+
   // handle toggle theme on web
   useEffect(() => {
     if (Platform.OS === "web")
@@ -79,17 +87,17 @@ const App: FC = () => {
               placeholder="Any words to detect?"
               multiline
               className="p-3 mx-5 border rounded text-md text-center dark:border-violet-800 dark:text-white"
+              onKeyPress={(e) => {
+                if (e.nativeEvent.key == "Enter") {
+                  e.preventDefault();
+                  predict();
+                }
+              }}
             />
             <View className="flex-row justify-center mt-4">
               <Pressable
                 className="bg-black p-2.5 pt-3 rounded mx-2 dark:bg-violet-800"
-                onPress={async () => {
-                  if (text !== "") {
-                    const cleanedText = preprocessing.current?.run(text) as string;
-                    const pred = await model.predict(cleanedText);
-                    if (pred) setPrediction(pred);
-                  } else Alert.alert("Null text submitted!", "Please type a text to detect.");
-                }}
+                onPress={predict}
               >
                 <Text className="text-white font-bold">Predict</Text>
               </Pressable>
