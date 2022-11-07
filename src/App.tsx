@@ -87,10 +87,14 @@ const App: FC = () => {
               placeholder="Any words to detect?"
               multiline
               className="p-3 mx-5 border rounded text-md text-center dark:border-violet-800 dark:text-white"
-              onKeyPress={(e) => {
-                if (e.nativeEvent.key == "Enter") {
+              onKeyPress={(e: any) => {
+                if (e.nativeEvent.ctrlKey && e.nativeEvent.key == "Enter") {
                   e.preventDefault();
                   predict();
+                } else if (e.nativeEvent.ctrlKey && e.nativeEvent.key == "Backspace") {
+                  e.preventDefault();
+                  setText("");
+                  setPrediction(null);
                 }
               }}
             />
