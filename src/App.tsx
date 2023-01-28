@@ -3,8 +3,8 @@ import { StatusBar } from "expo-status-bar";
 import { Alert, Platform, Pressable, Text, TextInput, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
+import { Picker } from "@react-native-picker/picker";
 import Predictions from "./components/predictions";
-import Description from "./components/description";
 import Loading from "./components/loading";
 import { modelHandler, PredInterface } from "./modelHandler";
 import { Preprocessing } from "./modelHandler/preprocessing";
@@ -15,6 +15,7 @@ const App: FC = () => {
   const [prediction, setPrediction] = useState<PredInterface | null>(null);
   const { colorScheme, setColorScheme } = useColorScheme();
   const model = new modelHandler();
+  const [selectedModel, setSelectedModel] = useState<string>("model-svm-linear-small.ort");
   const preprocessing = useRef<Preprocessing | null>(null);
 
   const predict = async () => {
@@ -33,7 +34,7 @@ const App: FC = () => {
 
   useEffect(() => {
     const prepare = async (): Promise<void> => {
-      await model.loadSession();
+      await model.loadSession(selectedModel);
 
       if (Platform.OS === "web") {
         setLoading("Loading Pyodide...");
@@ -79,8 +80,54 @@ const App: FC = () => {
           </Pressable>
         </View>
         <View className="flex items-center w-full">
-          <Description />
-          <View className="flex w-full max-w-[550px] my-4">
+          <View className="flex items-center justify-center">
+            <Text className="text-3xl font-semibold text-center dark:text-white">
+              Emotion Detector [ID]
+            </Text>
+            <Text className="text-sm text-center mx-2 dark:text-white">
+              Text emotion detector using <Text className="font-bold">SVM</Text> live in{" "}
+              {Platform.OS === "web" ? "browser" : "mobile"} powered by
+              <Text className="text-sm font-bold italic">
+                {Platform.OS === "web" ? " onnxruntime-web" : " onnxruntime-mobile"}
+              </Text>
+            </Text>
+            {Platform.OS === "web" && (
+              <Picker
+                style={{
+                  marginTop: "6px",
+                  padding: "5px",
+                  paddingTop: "3px",
+                  backgroundColor: "black",
+                  color: "#A3E635",
+                  borderRadius: 4,
+                  fontSize: 14,
+                  lineHeight: 20,
+                }}
+                selectedValue={selectedModel}
+                onValueChange={async (itemValue) => {
+                  setLoading(`Loading model ${itemValue}`);
+                  await model.loadSession(itemValue);
+                  setSelectedModel(itemValue);
+                  setLoading(null);
+                }}
+              >
+                <Picker.Item
+                  label="model-svm-linear-small.ort"
+                  value="model-svm-linear-small.ort"
+                />
+                <Picker.Item
+                  label="model-svm-linear-medium.ort"
+                  value="model-svm-linear-medium.ort"
+                />
+                <Picker.Item
+                  label="model-svm-linear-large.ort"
+                  value="model-svm-linear-large.ort"
+                />
+              </Picker>
+            )}
+          </View>
+
+          <View className="flex w-full max-w-[550px] mb-4 mt-3">
             <TextInput
               onChangeText={setText}
               value={text}

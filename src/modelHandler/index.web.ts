@@ -6,11 +6,11 @@ export interface PredInterface {
 }
 
 export class modelHandler {
-  loadSession = async (): Promise<void> => {
+  loadSession = async (modelName: string): Promise<void> => {
     try {
       // on web model is placed on static/model folder. see webpack.config.js
       (window as any).session = await ort.InferenceSession.create(
-        `${process.env.PUBLIC_URL}/static/model/model.with_runtime_opt.ort`
+        `${process.env.PUBLIC_URL}/static/model/${modelName}`
       );
       console.log("Session loaded!");
     } catch (e) {
@@ -29,7 +29,7 @@ export class modelHandler {
       .run({ words: input })
       .then((res) => {
         result = {
-          predicted: Number(res.label.data[0] as bigint),
+          predicted: res.label.data[0] as number,
           probabilities: Array.from(res.probabilities.data as Float32Array).map((num) => num * 100),
         };
       })

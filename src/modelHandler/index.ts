@@ -8,8 +8,8 @@ export interface PredInterface {
 }
 
 export class modelHandler {
-  loadSession = async (): Promise<void> => {
-    const assets = await Asset.loadAsync(require("../../assets/model/model.with_runtime_opt.ort"));
+  loadSession = async (modelName: string): Promise<void> => {
+    const assets = await Asset.loadAsync(require(`../../assets/model/${modelName}`));
     const modelUri = assets[0].localUri?.slice(7); // change from 'file::/data/...' to '/data/...'
     await ONNXModel.loadModel(modelUri);
   };
